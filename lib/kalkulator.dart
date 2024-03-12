@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Import library for input formatters
 
@@ -15,8 +14,32 @@ class _KalkulatorState extends State<KalkulatorPage> {
   int _result = 0;
 
   void _calculateResult(String operation) {
-    int number1 = int.tryParse(_number1Controller.text) ?? 0;
-    int number2 = int.tryParse(_number2Controller.text) ?? 0;
+    String input1 = _number1Controller.text;
+    String input2 = _number2Controller.text;
+
+    // Periksa apakah kedua input sudah diisi
+    if (input1.isEmpty || input2.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Mohon isi kedua angka terlebih dahulu.'),
+        ),
+      );
+      return; // Hentikan perhitungan jika salah satu input kosong
+    }
+
+    int number1 = int.tryParse(input1) ?? 0;
+    int number2 = int.tryParse(input2) ?? 0;
+
+    // Periksa untuk pembagian dengan nol
+    if (operation == 'Kurang' && number2 == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Angka kedua tidak boleh nol untuk operasi pengurangan.'),
+        ),
+      );
+      return;
+    }
+
     setState(() {
       if (operation == 'Tambah') {
         _result = number1 + number2;
@@ -38,91 +61,89 @@ class _KalkulatorState extends State<KalkulatorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kalkulator'),
-        backgroundColor: Colors.blue,
+        title: const Text('Kalkulator', style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.red,
         actions: [
           IconButton(
-              onPressed: (){
-                Navigator.pushReplacementNamed(context, '/home');
-          },
-              icon: const Icon(Icons.home)
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/home');
+            },
+            icon: const Icon(Icons.home),
+            color: Colors.white,
           ),
           IconButton(
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/login');
             },
             icon: const Icon(Icons.logout),
-            color: Colors.black,
+            color: Colors.white,
           ),
         ],
       ),
-
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  width: 150,
-                  child: TextField(
-                    controller: _number1Controller,
-                    keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))], // Only allow numbers
-                    decoration: const InputDecoration(
-                      hintText: 'Angka 1',
-                      border: OutlineInputBorder(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: TextFormField(
+                      controller: _number1Controller,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                      ],
+                      decoration: const InputDecoration(
+                        labelText: 'Angka 1',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 150,
-                  child: TextField(
-                    controller: _number2Controller,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))], // Only allow numbers
-                    decoration: const InputDecoration(
-                      hintText: 'Angka 2',
-                      border: OutlineInputBorder(),
+                  SizedBox(
+                    width: 150,
+                    child: TextFormField(
+                      controller: _number2Controller,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                      ],
+                      decoration: const InputDecoration(
+                        labelText: 'Angka 2',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () => _calculateResult('Tambah'),
-                  child: const Text('+', style: TextStyle(fontSize: 25)),
-                ),
-                ElevatedButton(
-                  onPressed: () => _calculateResult('Kurang'),
-                  child: const Text('-', style: TextStyle(fontSize: 30),),
-                ),
-                ElevatedButton(
-                  onPressed: _reset,
-                  child: const Text('Reset'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(onPressed: (){
-                  Navigator.pushReplacementNamed(context, '/home');
-                }, icon: const Icon(Icons.home)
-                ),
-              ],
-            ),
-            Text(
-              'Hasil: $_result',
-              style: const TextStyle(fontSize: 20),
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => _calculateResult('Tambah'),
+                    child: const Text('+', style: TextStyle(fontSize: 25, color: Colors.black87)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => _calculateResult('Kurang'),
+                    child: const Text('-', style: TextStyle(fontSize: 30, color: Colors.black87)),
+                  ),
+                  ElevatedButton(
+                    onPressed: _reset,
+                    child: const Text('Reset', style: TextStyle(color: Colors.black87)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Hasil: $_result',
+                style: const TextStyle(fontSize: 20),
+              ),
+            ],
+          ),
         ),
       ),
     );

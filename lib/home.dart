@@ -7,13 +7,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
-        backgroundColor: Colors.blue,
+        title: const Text('Home Page', style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.red,
         actions: [
           IconButton(onPressed: (){
             Navigator.pushReplacementNamed(context, '/login');
           },
-              icon: const Icon(Icons.logout), color: Colors.black,)
+              icon: const Icon(Icons.logout), color: Colors.white,)
         ],
       ),
       body: Align(
@@ -44,13 +44,25 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to the kalkulator page
-                Navigator.pushReplacementNamed(context, '/kalkulator');
-              },
-              child: const Text('Kalkulator'),
-            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the kalkulator page
+                    Navigator.pushReplacementNamed(context, '/kalkulator');
+                    },
+                  child: const Text('Kalkulator', style: TextStyle(color: Colors.black87),),
+                  ),
+                  ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the cek angka page
+                    Navigator.pushReplacementNamed(context, '/cekAngka');
+                  },
+                  child: const Text('Cek Angka', style: TextStyle(color: Colors.black87),),
+                ),
+              ]
+            )
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tugas_tpm1/cekAngka.dart';
 import 'package:tugas_tpm1/kalkulator.dart';
 import 'package:tugas_tpm1/login_page.dart';
 import 'package:tugas_tpm1/home.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginPage(), // Define the route for the login page
         '/home': (context) => const HomePage(),   // Define the route for the home page
-        '/kalkulator': (context) => const KalkulatorPage(),   // Define the route for the kalkulator page
+        '/kalkulator': (context) =>  KalkulatorPage(),   // Define the route for the kalkulator page
+        '/cekAngka': (context) => const cekAngka(),   // Define the route for the cekAngka page
 
       },
     );

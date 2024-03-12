@@ -95,7 +95,7 @@ class _LoginFormState extends State<LoginForm> {
           backgroundColor: isLoginSuccess ? Colors.blue : Colors.red,
         ),
         onPressed: () {
-          if (username == "Rainaldy" && password == "123210087" || username == "Bagas" && password == "123"){
+          if (username == "admin" && password == "admin" || username == "Admin" && password == "Admin"){
             setState(() {
               isLoginSuccess = true;
             });
@@ -113,7 +113,7 @@ class _LoginFormState extends State<LoginForm> {
             );
           }
         },
-        child: const Text('Login'),
+        child: const Text('Login', style: TextStyle(color: Colors.white),),
       ),
     );
   }
