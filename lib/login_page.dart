@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Login Page'),
         ),
-        body: LoginForm(),
+        body: const LoginForm(),
       ),
     );
   }
@@ -95,7 +95,7 @@ class _LoginFormState extends State<LoginForm> {
           backgroundColor: isLoginSuccess ? Colors.blue : Colors.red,
         ),
         onPressed: () {
-          if (username == "Rainaldy" && password == "123210087") {
+          if (username == "Rainaldy" && password == "123210087" || username == "Bagas" && password == "123"){
             setState(() {
               isLoginSuccess = true;
             });
