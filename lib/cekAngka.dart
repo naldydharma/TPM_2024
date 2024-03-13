@@ -4,19 +4,21 @@ class cekAngka extends StatefulWidget {
   const cekAngka({Key? key}) : super(key: key);
 
   @override
-  _cekAngkaState createState() => _cekAngkaState();
+  _CekAngkaState createState() => _CekAngkaState();
 }
 
-class _cekAngkaState extends State<cekAngka> {
+class _CekAngkaState extends State<cekAngka> {
   String _inputText = '';
-  double result = 0;
-  var status = "";
+  String status = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cek Angka', style: TextStyle(color: Colors.white),),
+        title: Text(
+          'Cek Angka',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.red,
         actions: [
           IconButton(
@@ -35,7 +37,6 @@ class _cekAngkaState extends State<cekAngka> {
           ),
         ],
       ),
-
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -57,23 +58,20 @@ class _cekAngkaState extends State<cekAngka> {
               ),
             ),
             SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    if (_inputText.isEmpty) {
-                      _showInputWarning();
-                    } else {
-                      _check();
-                    }
-                  },
-                  child: Text('Cek', style: TextStyle(color: Colors.black87),),
-                ),
-              ],
+            ElevatedButton(
+              onPressed: () {
+                if (_inputText.isEmpty) {
+                  _showInputWarning();
+                } else {
+                  _check();
+                }
+              },
+              child: Text('Cek', style: TextStyle(color: Colors.black87)),
             ),
             SizedBox(height: 20),
-            Text('$status', style: TextStyle(fontSize: 24),
+            Text(
+              '$status',
+              style: TextStyle(fontSize: 24),
             ),
           ],
         ),
@@ -84,22 +82,22 @@ class _cekAngkaState extends State<cekAngka> {
   void _check() {
     double num1 = double.tryParse(_inputText) ?? 0;
     setState(() {
-      result = num1 % 2;
-      if (result == 0) {
-        status = "Genap";
-      } else {
-        status = "Ganjil";
-      }
+      status = num1 % 2 == 0 ? 'Genap' : 'Ganjil';
     });
   }
 
   void _showInputWarning() {
+    setState(() {
+      status = '';
+    });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Anda harus memasukkan sebuah angka terlebih dahulu.'),
+        content: Text(
+          'Anda harus memasukkan sebuah angka terlebih dahulu.',
+        ),
         duration: Duration(seconds: 2),
       ),
     );
+
   }
 }
-
